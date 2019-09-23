@@ -1,78 +1,54 @@
 package com.faceless;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
+import com.faceless.requests.Request;
+import com.faceless.requests.RequestHandler;
+import com.faceless.requests.RequestReader;
+import com.faceless.responses.Response;
+import com.faceless.responses.ResponseWriter;
 
-import static com.faceless.Utilities.readFile;
+import java.io.*;
+import java.net.Socket;
 
 public class SocketProcessor implements Runnable
 {
+	private Socket     socket;
+	private HttpServer server;
 
-	private String       homePage;// non-static to enable changes to file while server is working
-	private Socket       s;
-	private InputStream  is;
-	private OutputStream os;
-
-	SocketProcessor(Socket s) throws Throwable
+	SocketProcessor(HttpServer server, Socket socket)
 	{
-		this.s = s;
-		this.is = s.getInputStream();
-		this.os = s.getOutputStream();
-		homePage = readFile("mainpage.html");
+		this.server = server;
+		this.socket = socket;
 	}
 
 	public void run()
 	{
 		try
 		{
-			readInputHeaders();
-			writeResponse(homePage);
-		}
-		catch (Throwable t)
-		{
-			/*do nothing*/
-		}
-		finally
-		{
-			try
-			{
-				this.s.close();
-			}
-			catch (Throwable t)
-			{
-				/*do nothing*/
-			}
-		}
-		System.err.println("[INFO]Client processing finished");
-	}
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-	private void writeResponse(String s) throws Throwable
-	{
-		//response header
-		String response = "HTTP/1.1 200 OK\r\n" +
-						  "Server: YarServer/2009-09-09\r\n" +
-						  "Content-Type: text/html\r\n" +
-						  "Content-Length: " + s.length() + "\r\n" +
-						  "Connection: close\r\n\r\n";
-		String result = response + s;
-		os.write(result.getBytes());
-		os.flush();
-	}
+			RequestReader  requestReader  = new RequestReader(bufferedReader);
+			ResponseWriter responseWriter = new ResponseWriter(bufferedWriter);
 
-	private void readInputHeaders() throws Throwable
-	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(this.is));
-		while (true)
-		{
-			String s = br.readLine();
-			//reading header lines from stream until is ends(empty line is border)
-			if (s == null || s.trim().length() == 0)
+			Request  request  = new Request(requestReader);
+			Response response = new Response(responseWriter);
+
+			RequestHandler requestHandler = server.mapper.getHandler(request.getPath());
+			if (requestHandler == null)
 			{
-				break;
+				System.out.println("Handler not found for path " + request.getPath());
+				response.setStatus("404");
+				response.setDescription("Not Found");
+				response.writeResponse("404 NOT FOUND");
+				socket.close();
+				return;
 			}
+			requestHandler.handle(request, response, Application.server.propertyContainer);
+			socket.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

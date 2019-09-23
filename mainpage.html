@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Faceless Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 <div style="border-width: 3px;">
-    <h1>Hello, you're on Faceless_Lord site(a.k.a. Ilya Strelets)</h1>
+    <h1>
+        <property name="Header"></property>
+    </h1>
 </div>
 <div>
-    <button class="btn_clk">Click me :P</button>
+    <property name="counter"></property>
+    <br/>
+    <span>
+        <fbutton method="POST" name="btn_clk" path="/click" text="Click me"></fbutton>
+        <fbutton method="POST" name="btn_unclk" path="/unclick" text="Click me"></fbutton>
+    </span>
+
 </div>
 </body>
 </html>
