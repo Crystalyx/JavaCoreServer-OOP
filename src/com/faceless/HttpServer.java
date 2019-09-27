@@ -3,6 +3,7 @@ package com.faceless;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.handlers.ClickButtonHandler;
 import com.faceless.handlers.MainHandler;
+import com.faceless.handlers.ResetingHandler;
 import com.faceless.requests.RequestMapper;
 import org.jsoup.nodes.Document;
 
@@ -32,10 +33,12 @@ public class HttpServer
 
 	private void loadProperties()
 	{
-		propertyContainer.setProperty("counter", "25");
+		int initialNumber = 25;
+		propertyContainer.setProperty("counter", Integer.toString(initialNumber));
 		propertyContainer.setProperty("Header", "Hello, you're on Faceless_Lord site(a.k.a. Ilya Strelets)");
 		mapper.registerHandler("/", new MainHandler());
 		mapper.registerHandler("/click", new ClickButtonHandler(1));
 		mapper.registerHandler("/unclick", new ClickButtonHandler(-1));
+		mapper.registerHandler("/reset", new ResetingHandler(initialNumber));
 	}
 }
