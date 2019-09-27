@@ -9,7 +9,7 @@ import com.faceless.responses.Response;
 
 import java.io.IOException;
 
-public class MainHandler extends RequestHandler
+public class 	MainHandler extends RequestHandler
 {
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
