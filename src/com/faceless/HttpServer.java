@@ -1,9 +1,7 @@
 package com.faceless;
 
 import com.faceless.containers.PropertyContainer;
-import com.faceless.handlers.ClickButtonHandler;
-import com.faceless.handlers.MainHandler;
-import com.faceless.handlers.ResetingHandler;
+import com.faceless.handlers.*;
 import com.faceless.requests.RequestMapper;
 import org.jsoup.nodes.Document;
 
@@ -14,7 +12,7 @@ public class HttpServer
 {
 	private static final int               PORT              = 8080;
 	final                RequestMapper     mapper            = new RequestMapper();
-	final                PropertyContainer propertyContainer = new PropertyContainer();
+	public final         PropertyContainer propertyContainer = new PropertyContainer();
 	public               Document          mainPageDocument  = Utilities.readDocument("mainpage.html");
 
 	void runServer(String... args) throws Throwable
@@ -40,5 +38,9 @@ public class HttpServer
 		mapper.registerHandler("/click", new ClickButtonHandler(1));
 		mapper.registerHandler("/unclick", new ClickButtonHandler(-1));
 		mapper.registerHandler("/reset", new ResetingHandler(initialNumber));
+		mapper.registerHandler("/get", new GetValueHandler());
+		mapper.registerHandler("/set", new SetValueHandler());
+		mapper.registerHandler("/new", new NewValueHandler());
+		mapper.registerHandler("/del", new DeleteValueHandler());
 	}
 }

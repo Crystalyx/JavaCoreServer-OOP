@@ -18,4 +18,14 @@ public class PropertyContainer
 	{
 		return properties.get(path);
 	}
+
+	public String removeProperty(String path)
+	{
+		return properties.remove(path);
+	}
+
+	public boolean hasProperty(String path)
+	{
+		return properties.containsKey(path);
+	}
 }

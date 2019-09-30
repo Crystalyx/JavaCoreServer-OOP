@@ -26,7 +26,7 @@ public class Response
 		this.description = description;
 	}
 
-	public void addHeader(String name, String value)
+	private void addHeader(String name, String value)
 	{
 		headers.put(name, value);
 	}
@@ -58,5 +58,10 @@ public class Response
 	{
 		writeStartLineAndHeaders();
 		writeBody(body);
+	}
+
+	public void setJsonResponse()
+	{
+		addHeader("Content-Type", "application/vnd.api+json");
 	}
 }

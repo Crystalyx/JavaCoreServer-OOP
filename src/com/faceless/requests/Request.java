@@ -1,16 +1,18 @@
 package com.faceless.requests;
 
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Request
 {
-	private RequestReader       reader;
-	private String              method;
-	private String              path;
-	private Map<String, String> headers;
-	private String              body;
+	private RequestReader             reader;
+	private String                    method;
+	private String                    path;
+	private Map<String, String>       headers;
+	private Hashtable<String, String> arguments;
+	private String                    body;
 
 	public Request(RequestReader reader) throws IOException
 	{
@@ -21,10 +23,23 @@ public class Request
 
 	private void readStartLine() throws IOException
 	{
-		String          startLine = reader.readStartLine();
-		StringTokenizer tok       = new StringTokenizer(startLine, " ");
+		String startLine = reader.readStartLine();
+		System.out.println(startLine);
+		StringTokenizer tok = new StringTokenizer(startLine, " ");
 		method = tok.nextToken();
-		path = tok.nextToken();
+		String   rawPath = tok.nextToken();
+		String[] parts   = rawPath.split("\\?");
+		path = parts[0];
+		if (parts.length > 1)
+		{
+			String[] argumentEntries = parts[1].split("&");
+			arguments = new Hashtable<>();
+			for (String argumentEntry : argumentEntries)
+			{
+				String[] kv = argumentEntry.split("=");
+				arguments.put(kv[0], kv[1]);
+			}
+		}
 	}
 
 	private void readHeaders() throws IOException
@@ -45,6 +60,16 @@ public class Request
 	public Map<String, String> getHeaders()
 	{
 		return headers;
+	}
+
+	public Hashtable<String, String> getArguments()
+	{
+		return arguments;
+	}
+
+	public String getArgumentValue(String name)
+	{
+		return arguments.get(name);
 	}
 
 	public String getBody() throws IOException
