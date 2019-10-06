@@ -62,6 +62,6 @@ public class Response
 
 	public void setJsonResponse()
 	{
-		addHeader("Content-Type", "application/vnd.api+json");
+		addHeader("Content-Type", "application/json");
 	}
 }

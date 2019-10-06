@@ -14,6 +14,7 @@ public class HttpServer
 	final                RequestMapper     mapper            = new RequestMapper();
 	public final         PropertyContainer propertyContainer = new PropertyContainer();
 	public               Document          mainPageDocument  = Utilities.readDocument("mainpage.html");
+	public               Document          loginPageDocument = Utilities.readDocument("loginpage.html");
 
 	void runServer(String... args) throws Throwable
 	{
@@ -33,7 +34,7 @@ public class HttpServer
 	{
 		int initialNumber = 25;
 		propertyContainer.setProperty("counter", Integer.toString(initialNumber));
-		propertyContainer.setProperty("Header", "Hello, you're on Faceless_Lord site(a.k.a. Ilya Strelets)");
+		propertyContainer.setProperty("logged_in", false);
 		mapper.registerHandler("/", new MainHandler());
 		mapper.registerHandler("/click", new ClickButtonHandler(1));
 		mapper.registerHandler("/unclick", new ClickButtonHandler(-1));
@@ -42,5 +43,8 @@ public class HttpServer
 		mapper.registerHandler("/set", new SetValueHandler());
 		mapper.registerHandler("/new", new NewValueHandler());
 		mapper.registerHandler("/del", new DeleteValueHandler());
+		mapper.registerHandler("/loginpage", new LoginPageHandler());
+		mapper.registerHandler("/login", new LoginHandler());
+		mapper.registerHandler("/logout", new LogoutHandler());
 	}
 }

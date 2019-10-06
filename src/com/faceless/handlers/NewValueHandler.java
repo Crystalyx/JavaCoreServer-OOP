@@ -1,6 +1,5 @@
 package com.faceless.handlers;
 
-import com.faceless.Application;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
@@ -25,19 +24,19 @@ public class NewValueHandler extends RequestHandler
 		String valueName = request.getArguments().keys().nextElement();
 		String value     = request.getArgumentValue(valueName);
 
-		if (!Application.server.propertyContainer.hasProperty(valueName))
+		if (!propertyContainer.hasProperty(valueName))
 		{
-			Application.server.propertyContainer.setProperty(valueName, value);
-			response.setStatus("200");
+			propertyContainer.setProperty(valueName, value);
+			response.setStatus("201");
 			response.setDescription("OK");
 			response.setJsonResponse();
 			response.writeResponse("{\n\t\"" + valueName + "\" : \"" +
-								   Application.server.propertyContainer.getProperty(valueName) + "\"\n}");
+								   propertyContainer.getProperty(valueName) + "\"\n}");
 		}
 		else
 		{
-			response.setStatus("404");
-			response.setDescription("Value is not registered");
+			response.setStatus("403");
+			response.setDescription("Value is already registered");
 		}
 	}
 }

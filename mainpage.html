@@ -2,25 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Faceless Home</title>
+    <title>Home</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        vbox {
+            display: block;
+            flex-direction: column;
+        }
+
+        hbox {
+            display: block;
+            flex-direction: row;
+        }
+    </style>
+    <script>
+        loginClick = function () {
+            $.ajax({
+                url: "/get?name=logged_in",
+                type: "GET"
+            }).done(function (data) {
+                if (!data)
+                    location.href = "/loginpage";
+                else
+                    $.ajax({
+                        url: "/logout",
+                        type: "POST"
+                    }).done(function () {
+                        location.reload()
+                    });
+            });
+        };
+    </script>
 </head>
+
 <body>
 <div style="border-width: 3px;">
     <h1>
-        <property name="Header"></property>
+        Faceless Lord Virtual Machines
     </h1>
 </div>
 <div>
-    <property name="counter"></property>
-    <br/>
-    <span>
-        <fbutton method="POST" name="btn_clk" path="/click" text="Click me"></fbutton>
-        <fbutton method="POST" name="btn_unclk" path="/unclick" text="Click me"></fbutton>
-        <fbutton method="PUT" name="reset_clk" path="/reset" text="Reset"></fbutton>
-    </span>
-    <br/>
-
+    <div>
+        <button name="vm_order">Order VM</button>
+        <button name="vm_order">My VMs</button>
+    </div>
+    <!--suppress HtmlDeprecatedAttribute -->
+    <div align="right">
+        <div id="username">Nonidentified user</div>
+        <button id="login_button" onclick="loginClick()">Login</button>
+        <script>
+            let value = document.getElementById("username").innerText;
+            console.log(value);
+            $.ajax({
+                url: "/get?name=logged_in",
+                type: "GET"
+            }).done(function (data) {
+                console.log(data);
+                if (data) {
+                    $.ajax({
+                        url: "/get?name=login",
+                        type: "GET"
+                    }).fail(function (data) {//too strange that is fails even status == 200 :/
+                        if (data.status === 200) {
+                            console.log(data);
+                            document.getElementById("username").innerText = data.responseText;
+                            document.getElementById("login_button").innerText = "Log out";
+                        }
+                    });
+                }
+            });
+        </script>
+    </div>
+    <!--<textarea name="value_field"></textarea>-->
 </div>
 </body>
 </html>

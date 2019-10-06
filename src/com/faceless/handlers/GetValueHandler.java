@@ -1,10 +1,10 @@
 package com.faceless.handlers;
 
-import com.faceless.Application;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
 import com.faceless.responses.Response;
+import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 
@@ -23,13 +23,16 @@ public class GetValueHandler extends RequestHandler
 		}
 
 		String valueName = request.getArgumentValue("name");
-		if (Application.server.propertyContainer.hasProperty(valueName))
+		if (propertyContainer.hasProperty(valueName))
 		{
 			response.setStatus("200");
 			response.setDescription("OK");
 			response.setJsonResponse();
-			response.writeResponse("{\n\t\"" + valueName + "\" : \"" +
-								   Application.server.propertyContainer.getProperty(valueName) + "\"\n}");
+			String value = propertyContainer.getProperty(valueName);
+			if (value.equals("true") || value.equals("false"))
+				response.writeResponse(new JsonPrimitive(Boolean.getBoolean(value)).getAsString());
+			else
+				response.writeResponse(new JsonPrimitive(value).getAsString());
 		}
 		else
 		{
