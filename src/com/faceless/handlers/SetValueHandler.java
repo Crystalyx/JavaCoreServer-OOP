@@ -8,7 +8,7 @@ import com.faceless.responses.Response;
 
 import java.io.IOException;
 
-public class SetValueHandler extends RequestHandler
+public class 	SetValueHandler extends RequestHandler
 {
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException

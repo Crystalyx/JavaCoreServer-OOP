@@ -3,10 +3,13 @@ package com.faceless;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.handlers.*;
 import com.faceless.requests.RequestMapper;
+import com.faceless.sql.Database;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class HttpServer
 {
@@ -50,5 +53,16 @@ public class HttpServer
 		mapper.registerHandler("/vmlookpage", new LookVMPageHandler());
 		mapper.registerHandler("/login", new LoginHandler());
 		mapper.registerHandler("/logout", new LogoutHandler());
+
+		
+        try {
+			new Database().connect();
+		}
+        catch (SQLException e){
+        	System.out.println("SQLException"); //обработал ошибки, потому что java просила
+		}
+		catch (ClassNotFoundException e){
+			System.out.println("ClassNotFoundException");
+		}
 	}
 }
