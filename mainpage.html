@@ -32,6 +32,30 @@
                     });
             });
         };
+
+        orderVM = function () {
+            $.ajax({
+                url: "/get?name=logged_in",
+                type: "GET"
+            }).done(function (data) {
+                if (!data)
+                    location.href = "/loginpage";
+                else
+                    location.href = "/vmorderpage"
+            });
+        };
+
+        lookVM = function () {
+            $.ajax({
+                url: "/get?name=logged_in",
+                type: "GET"
+            }).done(function (data) {
+                if (!data)
+                    location.href = "/loginpage";
+                else
+                    location.href = "/vmlookpage"
+            });
+        };
     </script>
 </head>
 
@@ -43,11 +67,11 @@
 </div>
 <div>
     <div>
-        <button name="vm_order">Order VM</button>
-        <button name="vm_order">My VMs</button>
+        <button name="vm_order" onclick="orderVM()">Order VM</button>
+        <button name="vm_look" onclick="lookVM()">My VM</button>
     </div>
     <!--suppress HtmlDeprecatedAttribute -->
-    <div align="right">
+    <div style="text-align: right">
         <div id="username">Nonidentified user</div>
         <button id="login_button" onclick="loginClick()">Login</button>
         <script>

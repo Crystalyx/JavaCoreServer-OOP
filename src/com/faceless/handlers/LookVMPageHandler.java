@@ -1,19 +1,19 @@
 package com.faceless.handlers;
 
+import com.faceless.Application;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
 import com.faceless.responses.Response;
-import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 
-public class LoginHandler extends RequestHandler
+public class LookVMPageHandler extends RequestHandler
 {
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
 	{
-		if (!"POST".equalsIgnoreCase(request.getMethod()))
+		if (!"GET".equalsIgnoreCase(request.getMethod()))
 		{
 			System.out.println("Method not allowed");
 			response.setStatus("405");
@@ -22,13 +22,8 @@ public class LoginHandler extends RequestHandler
 			return;
 		}
 
-		String login    = request.getArgumentValue("login");
-		String password = request.getArgumentValue("password");
-		propertyContainer.setProperty("logged_in", "true");
-		propertyContainer.setProperty("login", login);
-		propertyContainer.setProperty("password", password);
 		response.setStatus("200");
 		response.setDescription("OK");
-		response.writeResponse(new JsonPrimitive(true).getAsString());
+		response.writeResponse(Application.server.lookVMPageDocument.toString());
 	}
 }

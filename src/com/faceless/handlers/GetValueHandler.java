@@ -23,16 +23,15 @@ public class GetValueHandler extends RequestHandler
 		}
 
 		String valueName = request.getArgumentValue("name");
+		System.out.println(valueName);
 		if (propertyContainer.hasProperty(valueName))
 		{
+			System.out.println(propertyContainer.getProperty(valueName));
 			response.setStatus("200");
 			response.setDescription("OK");
 			response.setJsonResponse();
 			String value = propertyContainer.getProperty(valueName);
-			if (value.equals("true") || value.equals("false"))
-				response.writeResponse(new JsonPrimitive(Boolean.getBoolean(value)).getAsString());
-			else
-				response.writeResponse(new JsonPrimitive(value).getAsString());
+			response.writeResponse(new JsonPrimitive(value).getAsString());
 		}
 		else
 		{
