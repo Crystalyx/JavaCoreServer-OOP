@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order VM</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        returnToMain = function () {
+            $.ajax({
+                url: "/",
+                type: "GET"
+            }).done(function () {
+                location.href = "/"
+            })
+        };
+    </script>
+</head>
+<body>
+<button onclick="returnToMain()">Return</button>
+<br>
+<br>
+<div style="border-width: 3px;">
+    <h1>
+        My VM
+    </h1>
+</div>
+<div style="text-align: right">
+    <div id="username">Nonidentified user</div>
+    <button id="login_button" onclick="loginClick()">Login</button>
+    <script>
+        let value = document.getElementById("username").innerText;
+        console.log(value);
+        $.ajax({
+            url: "/get?name=logged_in",
+            type: "GET"
+        }).done(function (data) {
+            console.log(data);
+            if (data) {
+                $.ajax({
+                    url: "/get?name=login",
+                    type: "GET"
+                }).fail(function (data) {//too strange that is fails even status == 200 :/
+                    if (data.status === 200) {
+                        console.log(data);
+                        document.getElementById("username").innerText = data.responseText;
+                        document.getElementById("login_button").innerText = "Log out";
+                    }
+                });
+            }
+        });
+    </script>
+</div>
+<div style="margin-left: 12px">
+    <label for="vm_name">Name: <span id="vm_name">undefined</span></label>
+    <br>
+    <br>
+    <h4>CPU</h4>
+    <div id="cpu_div" style="margin-left: 12px">
+        <label for="cpu_vendor">vendor: </label>
+        <span id="cpu_vendor">undefined</span>
+        <br>
+        <label for="cpu_freq">frequency: </label>
+        <span id="cpu_freq">undefined</span>
+        <br>
+        <label for="cpu_core_count">core count</label>
+        <span id="cpu_core_count">undefined
+        </span>
+    </div>
+
+    <h4>RAM</h4>
+    <div id="ram_div" style="margin-left: 12px">
+        <label for="ram_volume">volume: </label>
+        <span id="ram_volume">undefined</span>
+    </div>
+    <h4>HDD</h4>
+    <div id="hdd_div" style="margin-left: 12px">
+        <label for="hdd_volume">volume: </label>
+        <span id="hdd_volume">undefined</span>
+    </div>
+    <h4>
+        <label for="enable_monitor">Monitor Enabled: </label>
+        <span id="enable_monitor">undefined</span>
+    </h4>
+    <h4>OS</h4>
+    <div id="os_div" style="margin-left: 12px">
+        <label for="os">Operating system: </label>
+        <span id="os">Kubuntu</span>
+    </div>
+</div>
+<br>
+<div>
+    <button id="edit_vm">Edit VM</button><!-- TODO -->
+    <br>
+    <button id="remove_vm">Remove VM</button><!-- TODO -->
+</div>
+</body>
+</html>

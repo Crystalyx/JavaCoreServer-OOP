@@ -22,7 +22,8 @@
             $.ajax({
                 url: "/login?login=" + login + "&password=" + password,
                 type: "POST"
-            }).done(function () {
+            }).done(function (data) {
+                console.log(data);
                 location.href = "/"
             });
         }

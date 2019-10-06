@@ -10,11 +10,13 @@ import java.net.Socket;
 
 public class HttpServer
 {
-	private static final int               PORT              = 8080;
-	final                RequestMapper     mapper            = new RequestMapper();
-	public final         PropertyContainer propertyContainer = new PropertyContainer();
-	public               Document          mainPageDocument  = Utilities.readDocument("mainpage.html");
-	public               Document          loginPageDocument = Utilities.readDocument("loginpage.html");
+	private static final int               PORT                = 8080;
+	public final         PropertyContainer propertyContainer   = new PropertyContainer();
+	final                RequestMapper     mapper              = new RequestMapper();
+	public               Document          mainPageDocument    = Utilities.readDocument("mainpage.html");
+	public               Document          loginPageDocument   = Utilities.readDocument("loginpage.html");
+	public               Document          orderVMPageDocument = Utilities.readDocument("order_vm.html");
+	public               Document          lookVMPageDocument  = Utilities.readDocument("look_vm.html");
 
 	void runServer(String... args) throws Throwable
 	{
@@ -44,6 +46,8 @@ public class HttpServer
 		mapper.registerHandler("/new", new NewValueHandler());
 		mapper.registerHandler("/del", new DeleteValueHandler());
 		mapper.registerHandler("/loginpage", new LoginPageHandler());
+		mapper.registerHandler("/vmorderpage", new OrderVMPageHandler());
+		mapper.registerHandler("/vmlookpage", new LookVMPageHandler());
 		mapper.registerHandler("/login", new LoginHandler());
 		mapper.registerHandler("/logout", new LogoutHandler());
 	}
