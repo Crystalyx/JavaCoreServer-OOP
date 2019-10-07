@@ -52,6 +52,7 @@ public class HttpServer
 		mapper.registerHandler("/vmlookpage", new LookVMPageHandler());
 		mapper.registerHandler("/login", new LoginHandler());
 		mapper.registerHandler("/logout", new LogoutHandler());
+		mapper.registerHandler("/ordervm", new CreateVMHandler());
 
 
 		try
