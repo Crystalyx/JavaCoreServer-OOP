@@ -1,5 +1,6 @@
 package com.faceless.handlers;
 
+import com.faceless.Application;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
@@ -24,6 +25,10 @@ public class LoginHandler extends RequestHandler
 
 		String login    = request.getArgumentValue("login");
 		String password = request.getArgumentValue("password");
+		String stmt =
+				"INSERT INTO users(login, password) " +
+				"VALUE ('" + login + "','" + password + "');";
+		Application.server.db.executeUpdate(stmt);
 		propertyContainer.setProperty("logged_in", "true");
 		propertyContainer.setProperty("login", login);
 		propertyContainer.setProperty("password", password);

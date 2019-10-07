@@ -3,6 +3,7 @@ package com.faceless;
 import com.faceless.containers.PropertyContainer;
 import com.faceless.handlers.*;
 import com.faceless.requests.RequestMapper;
+import com.faceless.sql.Database;
 import org.jsoup.nodes.Document;
 
 import java.net.ServerSocket;
@@ -17,6 +18,7 @@ public class HttpServer
 	public               Document          loginPageDocument   = Utilities.readDocument("loginpage.html");
 	public               Document          orderVMPageDocument = Utilities.readDocument("order_vm.html");
 	public               Document          lookVMPageDocument  = Utilities.readDocument("look_vm.html");
+	public               Database          db;
 
 	void runServer(String... args) throws Throwable
 	{
@@ -50,5 +52,16 @@ public class HttpServer
 		mapper.registerHandler("/vmlookpage", new LookVMPageHandler());
 		mapper.registerHandler("/login", new LoginHandler());
 		mapper.registerHandler("/logout", new LogoutHandler());
+
+
+		try
+		{
+			db = new Database();
+			db.connect();
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println("ClassNotFoundException");
+		}
 	}
 }
