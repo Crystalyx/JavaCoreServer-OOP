@@ -18,7 +18,7 @@ public class HttpServer
 	public               Document          loginPageDocument   = Utilities.readDocument("loginpage.html");
 	public               Document          orderVMPageDocument = Utilities.readDocument("order_vm.html");
 	public               Document          lookVMPageDocument  = Utilities.readDocument("look_vm.html");
-	public               Database          db;
+	public               Database          database;
 
 	void runServer(String... args) throws Throwable
 	{
@@ -53,12 +53,13 @@ public class HttpServer
 		mapper.registerHandler("/login", new LoginHandler());
 		mapper.registerHandler("/logout", new LogoutHandler());
 		mapper.registerHandler("/ordervm", new CreateVMHandler());
-
+		mapper.registerHandler("/myvms", new VmListHandler());
+		mapper.registerHandler("/removevm", new RemoveVMHandler());
 
 		try
 		{
-			db = new Database();
-			db.connect();
+			database = new Database();
+			database.connect();
 		}
 		catch (ClassNotFoundException e)
 		{

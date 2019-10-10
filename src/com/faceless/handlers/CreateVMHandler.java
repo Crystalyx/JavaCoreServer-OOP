@@ -43,7 +43,7 @@ public class CreateVMHandler extends RequestHandler
 				+ hdd_volume + "','"
 				+ monitor_enabled + "','"
 				+ os + "');";
-		Application.server.db.executeUpdate(stmt);
+		Application.server.database.executeUpdate(stmt);
 		response.setStatus("200");
 		response.setDescription("OK");
 		response.writeResponse(Application.server.loginPageDocument.toString());

@@ -28,7 +28,7 @@ public class LoginHandler extends RequestHandler
 		String stmt =
 				"INSERT INTO users(login, password) " +
 				"VALUE ('" + login + "','" + password + "');";
-		Application.server.db.executeUpdate(stmt);
+		Application.server.database.executeUpdate(stmt);
 		propertyContainer.setProperty("logged_in", "true");
 		propertyContainer.setProperty("login", login);
 		propertyContainer.setProperty("password", password);
