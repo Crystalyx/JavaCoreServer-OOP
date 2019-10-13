@@ -21,14 +21,8 @@ public class ClickButtonHandler extends RequestHandler
 	@Override
 	public void handle(Request request, Response response, PropertyContainer container) throws IOException
 	{
-		if (!"POST".equalsIgnoreCase(request.getMethod()))
-		{
-			System.out.println("Method not allowed");
-			response.setStatus("405");
-			response.setDescription("Method Not Allowed");
-			response.writeResponse("");
+		if (!assertRightMethod("POST", request, response))
 			return;
-		}
 		int counter = Integer.parseInt(container.getProperty("counter"));
 		container.setProperty("counter", counter + diff);
 		Utilities.applyPropertyContainer(Application.server.mainPageDocument, container);

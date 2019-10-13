@@ -13,14 +13,8 @@ public class DeleteValueHandler extends RequestHandler
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
 	{
-		if (!"DELETE".equalsIgnoreCase(request.getMethod()))
-		{
-			System.out.println("Method not allowed");
-			response.setStatus("405");
-			response.setDescription("Method Not Allowed");
-			response.writeResponse("");
+		if (!assertRightMethod("DELETE", request, response))
 			return;
-		}
 
 		String valueName = request.getArgumentValue("name");
 

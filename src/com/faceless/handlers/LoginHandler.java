@@ -14,14 +14,8 @@ public class LoginHandler extends RequestHandler
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
 	{
-		if (!"POST".equalsIgnoreCase(request.getMethod()))
-		{
-			System.out.println("Method not allowed");
-			response.setStatus("405");
-			response.setDescription("Method Not Allowed");
-			response.writeResponse("");
+		if (!assertRightMethod("POST", request, response))
 			return;
-		}
 
 		String login    = request.getArgumentValue("login");
 		String password = request.getArgumentValue("password");

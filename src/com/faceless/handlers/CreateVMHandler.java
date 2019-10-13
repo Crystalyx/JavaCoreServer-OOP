@@ -2,6 +2,7 @@ package com.faceless.handlers;
 
 import com.faceless.Application;
 import com.faceless.containers.PropertyContainer;
+import com.faceless.containers.VirtualMachine;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
 import com.faceless.responses.Response;
@@ -13,37 +14,21 @@ public class CreateVMHandler extends RequestHandler
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
 	{
-		if (!"PUT".equalsIgnoreCase(request.getMethod()))
-		{
-			System.out.println("Method not allowed");
-			response.setStatus("405");
-			response.setDescription("Method Not Allowed");
-			response.writeResponse("");
+		if (!assertRightMethod("PUT", request, response))
 			return;
-		}
+		VirtualMachine vm    = new VirtualMachine();
+		String         login = propertyContainer.getProperty("login");
+		vm.vm_name = request.getArgumentValue("vm_name");
+		vm.cpu_vendor = request.getArgumentValue("cpu_vendor");
+		vm.cpu_frequency = request.getArgumentValue("cpu_frequency");
+		vm.cpu_core_count = request.getArgumentValue("cpu_core_count");
+		vm.ram_volume = request.getArgumentValue("ram_volume");
+		vm.hdd_volume = request.getArgumentValue("hdd_volume");
+		vm.monitor_enabled = request.getArgumentValue("monitor_enabled");
+		vm.os = request.getArgumentValue("os");
 
-		String login           = propertyContainer.getProperty("login");
-		String vm_name         = request.getArgumentValue("vm_name");
-		String cpu_vendor      = request.getArgumentValue("cpu_vendor");
-		String cpu_frequency   = request.getArgumentValue("cpu_frequency");
-		String cpu_core_count  = request.getArgumentValue("cpu_core_count");
-		String ram_volume      = request.getArgumentValue("ram_volume");
-		String hdd_volume      = request.getArgumentValue("hdd_volume");
-		String monitor_enabled = request.getArgumentValue("monitor_enabled");
-		String os              = request.getArgumentValue("os");
+		vm.addToDatabase(login);
 
-		String stmt =
-				"INSERT INTO vms(owner, vmname, cpuvendor, cpufrequency, cpucorecount, ramvolume, hddvolume, monitor, os) " +
-				"VALUE ('" + login + "','"
-				+ vm_name + "','"
-				+ cpu_vendor + "','"
-				+ cpu_frequency + "','"
-				+ cpu_core_count + "','"
-				+ ram_volume + "','"
-				+ hdd_volume + "','"
-				+ monitor_enabled + "','"
-				+ os + "');";
-		Application.server.database.executeUpdate(stmt);
 		response.setStatus("200");
 		response.setDescription("OK");
 		response.writeResponse(Application.server.loginPageDocument.toString());

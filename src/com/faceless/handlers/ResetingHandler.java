@@ -21,15 +21,10 @@ public class ResetingHandler extends RequestHandler
     @Override
     public void handle(Request request, Response response, PropertyContainer container) throws IOException
     {
-        if (!"PUT".equalsIgnoreCase(request.getMethod()))
-        {
-            System.out.println("Method not allowed");
-            response.setStatus("405");
-            response.setDescription("Method Not Allowed");
-            response.writeResponse("");
+		if (!assertRightMethod("PUT", request, response))
             return;
-        }
-        container.setProperty("counter", initialNumber);
+
+		container.setProperty("counter", initialNumber);
         Utilities.applyPropertyContainer(Application.server.mainPageDocument, container);
         response.setStatus("200");
         response.setDescription("OK");

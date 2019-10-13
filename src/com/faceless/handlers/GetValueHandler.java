@@ -13,14 +13,8 @@ public class GetValueHandler extends RequestHandler
 	@Override
 	public void handle(Request request, Response response, PropertyContainer propertyContainer) throws IOException
 	{
-		if (!"GET".equalsIgnoreCase(request.getMethod()))
-		{
-			System.out.println("Method not allowed");
-			response.setStatus("405");
-			response.setDescription("Method Not Allowed");
-			response.writeResponse("Method Not Allowed");
+		if (!assertRightMethod("GET", request, response))
 			return;
-		}
 
 		String valueName = request.getArgumentValue("name");
 		System.out.println(valueName);

@@ -55,6 +55,7 @@ public class HttpServer
 		mapper.registerHandler("/ordervm", new CreateVMHandler());
 		mapper.registerHandler("/myvms", new VmListHandler());
 		mapper.registerHandler("/removevm", new RemoveVMHandler());
+		mapper.registerHandler("/editvm", new VMCharacteristicsHandler());
 
 		try
 		{
