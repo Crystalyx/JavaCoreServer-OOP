@@ -19,9 +19,10 @@ public class LoginHandler extends RequestHandler
 
 		String login    = request.getArgumentValue("login");
 		String password = request.getArgumentValue("password");
-		String stmt =
-				"INSERT INTO users(login, password) " +
-				"VALUE ('" + login + "','" + password + "');";
+		String stmt =//if not here
+				"INSERT IGNORE INTO users(login, password)\n" +
+				"    VALUE ('" + login + "', '" + password + "')\n" +
+				"ON DUPLICATE KEY UPDATE login=login;";
 		Application.server.database.executeUpdate(stmt);
 		propertyContainer.setProperty("logged_in", "true");
 		propertyContainer.setProperty("login", login);

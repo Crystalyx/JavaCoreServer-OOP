@@ -59,7 +59,7 @@ public class Database
 			System.out.println("Database created successfully...");
 
 			statement.executeUpdate("USE VMDB;");
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, login VARCHAR(255), password VARCHAR(255));");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS users (id INT UNIQUE AUTO_INCREMENT PRIMARY KEY, login VARCHAR(255) UNIQUE, password VARCHAR(255));");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS vms (id INT AUTO_INCREMENT PRIMARY KEY,\n" +
 									" owner VARCHAR(255),\n" +
 									" vmname VARCHAR(255),\n" +
