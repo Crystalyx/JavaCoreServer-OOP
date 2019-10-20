@@ -4,9 +4,11 @@ import java.sql.*;
 
 public class Database
 {
-	private final String     DB_URL   = "jdbc:mysql://localhost?login=root&password=link";
+	// addiction "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC":
+	// Solve problem with wrong server timezone on windows
+	private final String     DB_URL   = "jdbc:mysql://localhost?login=root&password=1234?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private final String     username = "root";
-	private final String     password = "link";
+	private final String     password = "1234";
 	private       Connection connection;
 	private       Statement  statement;
 

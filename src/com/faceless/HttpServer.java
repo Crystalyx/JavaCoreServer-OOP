@@ -20,7 +20,7 @@ public class HttpServer
 	public               Document          lookVMPageDocument  = Utilities.readDocument("look_vm.html");
 	public               Database          database;
 
-	void runServer(String... args) throws Throwable
+	public void runServer(String... args) throws Throwable
 	{
 		loadProperties();
 
