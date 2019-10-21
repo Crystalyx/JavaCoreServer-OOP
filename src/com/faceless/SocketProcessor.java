@@ -1,6 +1,7 @@
 package com.faceless;
 
 import com.faceless.requests.Request;
+import com.faceless.requests.RequestFilter;
 import com.faceless.requests.RequestHandler;
 import com.faceless.requests.RequestReader;
 import com.faceless.responses.Response;
@@ -8,6 +9,7 @@ import com.faceless.responses.ResponseWriter;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class SocketProcessor implements Runnable
 {
@@ -30,9 +32,20 @@ public class SocketProcessor implements Runnable
 			RequestReader  requestReader  = new RequestReader(bufferedReader);
 			ResponseWriter responseWriter = new ResponseWriter(bufferedWriter);
 
-			Request  request  = new Request(requestReader);
-			Response response = new Response(responseWriter);
-
+			Request             request  = new Request(requestReader);
+			Response            response = new Response(responseWriter);
+			List<RequestFilter> filters  = server.mapper.getFilters(request.getPath());
+			for (RequestFilter filter : filters)
+			{
+				if (!filter.filter(request, Application.server.propertyContainer))
+				{
+					response.setStatus("" + filter.getErrorCode());
+					response.setDescription(filter.getErrorString());
+					response.writeResponse(filter.getErrorCode() + " " + filter.getErrorString());
+					socket.close();
+					return;
+				}
+			}
 			RequestHandler requestHandler = server.mapper.getHandler(request.getPath());
 			if (requestHandler == null)
 			{

@@ -8,7 +8,7 @@ public class Database
 	// Solve problem with wrong server timezone on windows
 	private final String     DB_URL   = "jdbc:mysql://localhost?login=root&password=1234?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private final String     username = "root";
-	private final String     password = "1234";
+	private final String     password = "link";
 	private       Connection connection;
 	private       Statement  statement;
 
