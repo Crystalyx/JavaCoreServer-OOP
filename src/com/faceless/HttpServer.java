@@ -40,9 +40,6 @@ public class HttpServer
 		propertyContainer.setProperty("counter", Integer.toString(initialNumber));
 		propertyContainer.setProperty("logged_in", false);
 		mapper.registerHandler("/", new MainHandler());
-		mapper.registerHandler("/click", new ClickButtonHandler(1));
-		mapper.registerHandler("/unclick", new ClickButtonHandler(-1));
-		mapper.registerHandler("/reset", new ResetingHandler(initialNumber));
 		mapper.registerHandler("/get", new GetValueHandler());
 		mapper.registerHandler("/set", new SetValueHandler());
 		mapper.registerHandler("/new", new NewValueHandler());

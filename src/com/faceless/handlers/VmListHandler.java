@@ -6,6 +6,7 @@ import com.faceless.containers.VirtualMachine;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
 import com.faceless.responses.Response;
+import com.google.gson.JsonPrimitive;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ public class VmListHandler extends RequestHandler
 			return;
 
 		String login = request.getArgumentValue("login");
+		if(!checkValuesNotNull(response, login))
+			return;
 		ResultSet rs = Application.server.database.executeQuery("SELECT owner,\n" +
 																"       vmname,\n" +
 																"       cpuvendor,\n" +

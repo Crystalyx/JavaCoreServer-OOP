@@ -16,7 +16,6 @@ public class OrderVMPageHandler extends RequestHandler
 		if (!assertRightMethod("GET", request, response))
 			return;
 
-
 		response.setStatus("200");
 		response.setDescription("OK");
 		response.writeResponse(Application.server.orderVMPageDocument.toString());

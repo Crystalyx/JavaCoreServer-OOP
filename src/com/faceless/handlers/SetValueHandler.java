@@ -16,9 +16,10 @@ public class SetValueHandler extends RequestHandler
 		if (!assertRightMethod("POST", request, response))
 			return;
 
-
 		String valueName = request.getArguments().keys().nextElement();
 		String value     = request.getArgumentValue(valueName);
+		if(!checkValuesNotNull(response, value,valueName))
+			return;
 		if (Application.server.propertyContainer.hasProperty(valueName))
 		{
 			Application.server.propertyContainer.setProperty(valueName, value);

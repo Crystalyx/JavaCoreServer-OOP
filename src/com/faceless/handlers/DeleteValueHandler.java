@@ -17,7 +17,8 @@ public class DeleteValueHandler extends RequestHandler
 			return;
 
 		String valueName = request.getArgumentValue("name");
-
+		if(!checkValuesNotNull(response, valueName))
+			return;
 		if (Application.server.propertyContainer.hasProperty(valueName))
 		{
 			Application.server.propertyContainer.removeProperty(valueName);

@@ -16,7 +16,6 @@ public class LogoutHandler extends RequestHandler
 		if (!assertRightMethod("POST", request, response))
 			return;
 
-
 		propertyContainer.setProperty("logged_in", "false");
 		propertyContainer.removeProperty("login");
 		propertyContainer.removeProperty("password");

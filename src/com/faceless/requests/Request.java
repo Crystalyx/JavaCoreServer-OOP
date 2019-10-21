@@ -69,7 +69,12 @@ public class Request
 
 	public String getArgumentValue(String name)
 	{
-		return arguments.get(name);
+		try {
+			return arguments.get(name);
+		}
+		catch (Exception e){
+			return null;
+		}
 	}
 
 	public String getBody() throws IOException

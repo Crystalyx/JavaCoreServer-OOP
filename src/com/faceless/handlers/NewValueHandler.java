@@ -15,9 +15,10 @@ public class NewValueHandler extends RequestHandler
 		if (!assertRightMethod("PUT", request, response))
 			return;
 
-
 		String valueName = request.getArguments().keys().nextElement();
 		String value     = request.getArgumentValue(valueName);
+		if(!checkValuesNotNull(response, value,valueName))
+			return;
 
 		if (!propertyContainer.hasProperty(valueName))
 		{

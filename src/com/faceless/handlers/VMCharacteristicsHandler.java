@@ -18,7 +18,15 @@ public class VMCharacteristicsHandler extends RequestHandler
 			return;
 
 		String         login = request.getArgumentValue("login");
-		int            index = Integer.parseInt(request.getArgumentValue("index"));
+		int    index=-1;
+		try {
+			index = Integer.parseInt(request.getArgumentValue("index"));
+		}catch (NumberFormatException e)
+		{
+			throwForbidden(response);
+		}
+		if(!checkValuesNotNull(response, login))
+			return;
 		VirtualMachine vm    = VirtualMachine.getVmByUserAndId(login, index, Application.server.database);
 
 		response.setStatus("200");

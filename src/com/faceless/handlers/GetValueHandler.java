@@ -17,7 +17,8 @@ public class GetValueHandler extends RequestHandler
 			return;
 
 		String valueName = request.getArgumentValue("name");
-		System.out.println(valueName);
+		if(!checkValuesNotNull(response, valueName))
+			return;
 		if (propertyContainer.hasProperty(valueName))
 		{
 			System.out.println(propertyContainer.getProperty(valueName));
