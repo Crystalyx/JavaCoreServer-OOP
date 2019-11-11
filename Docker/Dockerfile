@@ -1,14 +1,8 @@
-FROM openjdk:11
+FROM openjdk:8
 COPY . /var/www/java  
 WORKDIR /var/www/java
 
-ADD JavaCoreServer.jar JavaCoreServer.jar
-ADD loginpage.html loginpage.html
-ADD look_vm.html look_vm.html
-ADD mainpage.html mainpage.html
-ADD order_vm.html order_vm.html
+ADD JavaCoreServer-1.0-SNAPSHOT-jar-with-dependencies.jar JavaCoreServer.jar
 
-CMD java -jar JavaCoreServer.jar
-
+EXPOSE 3306
 EXPOSE 8080
-EXPOSE 3308
