@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   mysql-development:
     image: mysql:8.0.17
     environment:
@@ -10,8 +9,7 @@ services:
         MYSQL_USER: user
         MYSQL_PASSWORD: pass
     ports:
-      - "3310:3306"
-      
+      - 3310:3306
 
   httpserver:
     image: httpserver
