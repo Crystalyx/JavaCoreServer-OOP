@@ -9,11 +9,12 @@ import org.jsoup.nodes.Document;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Hashtable;
 
 public class HttpServer
 {
 	private static final int               PORT                = 8080;
-	public final         PropertyContainer propertyContainer   = new PropertyContainer();
+	public static final 		 Hashtable<String, PropertyContainer> propertyContainers   = new Hashtable<>();
 	final                RequestMapper     mapper              = new RequestMapper();
 	public               Document          mainPageDocument    = new Utilities().readDocument("/mainpage.html");
 	public               Document          loginPageDocument   = new Utilities().readDocument("/loginpage.html");
@@ -37,9 +38,6 @@ public class HttpServer
 
 	private void loadProperties()
 	{
-		int initialNumber = 25;
-		propertyContainer.setProperty("counter", Integer.toString(initialNumber));
-		propertyContainer.setProperty("logged_in", false);
 		mapper.registerHandler(Paths.root, new MainHandler());
 		mapper.registerHandler(Paths.getVar, new GetValueHandler());
 		mapper.registerHandler(Paths.setVar, new SetValueHandler());
@@ -66,7 +64,7 @@ public class HttpServer
 			database = new Database();
 			database.connect();
 		}
-		catch (ClassNotFoundException e)
+		catch (Exception e)
 		{
 			System.out.println("ClassNotFoundException");
 		}

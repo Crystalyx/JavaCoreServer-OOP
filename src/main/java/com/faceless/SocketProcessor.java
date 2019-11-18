@@ -1,11 +1,13 @@
 package com.faceless;
 
+import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestFilter;
 import com.faceless.requests.RequestHandler;
 import com.faceless.requests.RequestReader;
 import com.faceless.responses.Response;
 import com.faceless.responses.ResponseWriter;
+import org.apache.http.protocol.HTTP;
 
 import java.io.*;
 import java.net.Socket;
@@ -34,10 +36,12 @@ public class SocketProcessor implements Runnable
 
 			Request             request  = new Request(requestReader);
 			Response            response = new Response(responseWriter);
+
+			PropertyContainer container = getContainerFor(request);
 			List<RequestFilter> filters  = server.mapper.getFilters(request.getPath());
 			for (RequestFilter filter : filters)
 			{
-				if (!filter.filter(request, Application.server.propertyContainer))
+				if (!filter.filter(request, container))
 				{
 					response.setStatus("" + filter.getErrorCode());
 					response.setDescription(filter.getErrorString());
@@ -56,12 +60,28 @@ public class SocketProcessor implements Runnable
 				socket.close();
 				return;
 			}
-			requestHandler.handle(request, response, Application.server.propertyContainer);
+			requestHandler.handle(request, response, container);
 			socket.close();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+	}
+
+	private PropertyContainer getContainerFor(Request request) {
+		String id = getUserIdFromRequest(request);
+		System.out.println(id);
+		if(HttpServer.propertyContainers.containsKey(id))
+			return HttpServer.propertyContainers.get(id);
+		PropertyContainer container = new PropertyContainer();
+		container.setProperty("counter", Integer.toString(0));
+		container.setProperty("logged_in", false);
+		HttpServer.propertyContainers.put(id, container);
+		return container;
+	}
+
+	private String getUserIdFromRequest(Request request) {
+		return request.getHeaders().get("User-Agent");
 	}
 }

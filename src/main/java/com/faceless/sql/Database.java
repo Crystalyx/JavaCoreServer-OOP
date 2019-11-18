@@ -6,9 +6,9 @@ public class Database
 {
 	// addiction "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC":
 	// Solve problem with wrong server timezone on windows
-	private final String     DB_URL   = "jdbc:mysql://192.168.99.100:3310?login=root&password=root&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=20";
+	private final String     DB_URL   = "jdbc:mysql://localhost?login=root&password=1234&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=20&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private final String     username = "root";
-	private final String     password = "root";
+	private final String     password = "1234";
 	private       Connection connection;
 	private Statement statement;
 
