@@ -1,5 +1,7 @@
 package com.faceless;
 
+import com.faceless.vmservice.VmServer;
+
 public class Application
 {
 	public static HttpServer server;
@@ -13,7 +15,7 @@ public class Application
 	{
 		try
 		{
-			server = new HttpServer();
+            server = new VmServer();
 			server.runServer();
 		}
 		catch (Throwable throwable)

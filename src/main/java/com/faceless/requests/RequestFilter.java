@@ -1,8 +1,8 @@
 package com.faceless.requests;
 
 
-import com.faceless.containers.PropertyContainer;
 import com.faceless.responses.Response;
+import com.faceless.vmservice.containers.PropertyContainer;
 
 import java.io.IOException;
 

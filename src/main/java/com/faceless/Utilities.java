@@ -1,6 +1,6 @@
 package com.faceless;
 
-import com.faceless.containers.PropertyContainer;
+import com.faceless.vmservice.containers.PropertyContainer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

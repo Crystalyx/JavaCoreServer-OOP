@@ -1,13 +1,12 @@
 package com.faceless;
 
-import com.faceless.containers.PropertyContainer;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestFilter;
 import com.faceless.requests.RequestHandler;
 import com.faceless.requests.RequestReader;
 import com.faceless.responses.Response;
 import com.faceless.responses.ResponseWriter;
-import org.apache.http.protocol.HTTP;
+import com.faceless.vmservice.containers.PropertyContainer;
 
 import java.io.*;
 import java.net.Socket;
