@@ -11,10 +11,16 @@ services:
     ports:
       - 3310:3306
 
-  httpserver:
-    image: httpserver
+  authservice:
+    image: authservice
     build: .
-    command: java -jar JavaCoreServer.jar
+    command: java -jar JavaCoreServer.jar --authservice 192.168.99.100 3310
+    ports:
+      - 8081:8081
+
+  vmservice:
+    image: vmservice
+    build: .
+    command: java -jar JavaCoreServer.jar --vmservice 192.168.99.100 3310
     ports:
     - 1234:8080
-      

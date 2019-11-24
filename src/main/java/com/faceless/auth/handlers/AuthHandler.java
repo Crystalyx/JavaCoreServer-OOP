@@ -1,6 +1,6 @@
 package com.faceless.auth.handlers;
 
-import com.faceless.AuthServiceApplication;
+import com.faceless.Application;
 import com.faceless.requests.Request;
 import com.faceless.requests.RequestHandler;
 import com.faceless.responses.Response;
@@ -21,7 +21,7 @@ public class AuthHandler extends RequestHandler {
                 "INSERT IGNORE INTO users(login, password)\n" +
                         "    VALUE ('" + login + "', '" + password + "')\n" +
                         "ON DUPLICATE KEY UPDATE login=login;";
-        AuthServiceApplication.server.database.executeUpdate(stmt);
+        Application.server.database.executeUpdate(stmt);
 
         response.setStatus("200");
         response.setDescription("OK");

@@ -11,10 +11,11 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
+import static com.faceless.Application.authURL;
+
 public class LoginHandler extends RequestHandler
 {
     private static final HttpClientBuilder BUILDER = HttpClientBuilder.create();
-    private static final String authURL = "http://localhost:8081";
 
     /**
      * Redirects login request to Auth Service

@@ -10,7 +10,6 @@ public class AuthServer extends HttpServer {
 
     @Override
     protected void loadProperties() {
-        System.out.println("localhost:" + this.PORT);
         mapper.registerHandler(Paths.login, new AuthHandler());
         super.loadProperties();
     }

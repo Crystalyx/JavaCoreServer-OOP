@@ -2,13 +2,14 @@ package com.faceless.sql;
 
 import java.sql.*;
 
+import static com.faceless.Application.databaseURL;
+
 public class Database
 {
 	// addiction "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC":
 	// Solve problem with wrong server timezone on windows
-	private final String     DB_URL   = "jdbc:mysql://localhost?login=root&password=1234&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=20&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private final String     username = "root";
-	private final String     password = "1234";
+    private final String password = "root";
 	private       Connection connection;
 	private Statement statement;
 
@@ -50,11 +51,11 @@ public class Database
 //		Class.forName("com.mysql.jdbc.Driver");
 		//STEP 3: Open a connection
 //		Thread.sleep(20000);
-		System.out.println("Connecting to database... " + DB_URL);
+        System.out.println("Connecting to database... " + databaseURL);
 		try
 		{
 			boolean           dbExisted = false;
-			Connection        conn      = DriverManager.getConnection(DB_URL, username, password);
+            Connection conn = DriverManager.getConnection(databaseURL, username, password);
 			PreparedStatement stmt      = conn.prepareStatement("CREATE DATABASE IF NOT EXISTS VMDB;");
 			stmt.execute();
 			statement = conn.createStatement();
